@@ -1,3 +1,58 @@
-<h1>
-  {{title}}
-</h1>
+<div class="container">
+
+    <form #websocketForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="input-group col-xs-8">
+            <input
+                required
+                type="text"
+                class="form-control"
+                placeholder="message..."
+                name="message"
+                [(ngModel)]="message.message">
+
+            <span class="input-group-btn">
+                    <button
+                        [disabled]="!websocketForm.form.valid"
+                        class="btn btn-secondary"
+                        type="submit">Send</button>
+            </span>
+
+        </div>
+    </form>
+
+    <div class="messages">
+        <h2>Recieved messages:</h2>
+        <p *ngFor="let msg of messages">{{msg.message}}</p>
+    </div>
+
+    <h1>Log parser tool</h1>
+
+    <input type="file" ng2FileSelect [uploader]="uploader"/>
+
+    <div>
+
+        <div>
+            Queue progress:
+            <div class="progress" style="">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-success btn-s"
+                (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+            <span class="glyphicon glyphicon-upload"></span> Upload all
+        </button>
+
+        <button type="button" class="btn btn-warning btn-s"
+                (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+        </button>
+
+        <button type="button" class="btn btn-danger btn-s"
+                (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+            <span class="glyphicon glyphicon-trash"></span> Remove all
+        </button>
+
+    </div>
+
+</div>
